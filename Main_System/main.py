@@ -22,15 +22,16 @@ with open('people.csv', 'r') as f:
     rows = list(reader)
     rows.reverse()
     rows.pop()
-    
+
     for row in rows:
         person = dict()
 
         for i in range(len(row)):
             person[KEYS[i]] = row[i]
 
-        person['CprNumber'] = '{}-{}'.format(person['Birthday'].replace('-', ''), ''.join(random.choices(string.digits, k=4)))
-        
+        person['CprNumber'] = '{}-{}'.format(person['Birthday'].replace(
+            '-', ''), ''.join(random.choices(string.digits, k=4)))
+
         response = requests.post(
             'http://localhost:8080/nemId',
             data=dicttoxml(person, custom_root='Person'),
@@ -39,7 +40,8 @@ with open('people.csv', 'r') as f:
             }
         )
 
-        person['NemID'] = json.loads(response.content.decode('utf-8')).get('nemID', None)
+        person['NemID'] = json.loads(
+            response.content.decode('utf-8')).get('nemID', None)
 
-        with open('data.msgpack', 'wb') as out:
+        with open(person['CprNumber'] + '.msgpack', 'wb') as out:
             out.write(msgpack.packb(person))
