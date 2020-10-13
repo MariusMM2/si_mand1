@@ -25,7 +25,7 @@ app.post('/nemId', xmlparser({trim: false, explicitArray: false}), async(req, re
         nemId = response.data.nemId;
         axios.post('http://localhost:8089/generate-password-nemID', {nemId: nemId, cpr:cpr}).then(re => {
             let query = "INSERT INTO user(CPR, NemID, Password) VALUES(?,?,?)";
-            db.run(query, [cpr, nemId, re.data.nemIdPassword], (err) =>{
+            db.run(query, [cpr._, nemId, re.data.nemIdPassword], (err) =>{
         if(err){
             console.log(err);
         }
