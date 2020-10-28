@@ -1,3 +1,4 @@
+drop table if exists auth_log;
 CREATE TABLE [auth_log]
 (
     [Id]        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -7,9 +8,10 @@ CREATE TABLE [auth_log]
     FOREIGN KEY ([UserId]) REFERENCES [user] (Id)
 );
 
+drop table if exists User;
 CREATE TABLE [User]
 (
-    [Id]         INTEGER PRIMARY KEY AUTOINCREMENT,
+    [Id]         INTEGER not null PRIMARY KEY AUTOINCREMENT,
     [NemID]      TEXT    NOT NULL,
     [CPR]        TEXT    NOT NULL,
     [CreatedAt]  DATE    not null,
@@ -19,15 +21,17 @@ CREATE TABLE [User]
     foreign key (GenderId) references Gender (Id)
 );
 
+drop table if exists Gender;
 create table [Gender]
 (
-    [Id]    integer primary key autoincrement,
+    [Id]    integer not null primary key autoincrement,
     [Label] text not null
 );
 
+drop table if exists Password;
 create table [Password]
 (
-    [Id]           integer primary key autoincrement,
+    [Id]           integer not null primary key autoincrement,
     [UserId]       integer not null,
     [PasswordHash] text    not null,
     [CreatedAt]    date    not null,
@@ -35,4 +39,4 @@ create table [Password]
     foreign key (UserId) references User (Id)
 );
 
-insert into Gender values (0, 'male'), (1, 'female'), (2, 'other');
+insert into Gender values ('male'), (1, 'female'), (2, 'other');
