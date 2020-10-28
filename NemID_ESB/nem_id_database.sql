@@ -11,7 +11,7 @@ CREATE TABLE [auth_log]
 drop table if exists User;
 CREATE TABLE [User]
 (
-    [Id]         INTEGER not null PRIMARY KEY AUTOINCREMENT,
+    [Id]         INTEGER PRIMARY KEY AUTOINCREMENT,
     [NemID]      TEXT    NOT NULL,
     [CPR]        TEXT    NOT NULL,
     [CreatedAt]  DATE    not null,
@@ -24,14 +24,14 @@ CREATE TABLE [User]
 drop table if exists Gender;
 create table [Gender]
 (
-    [Id]    integer not null primary key autoincrement,
+    [Id]    integer primary key autoincrement,
     [Label] text not null
 );
 
 drop table if exists Password;
 create table [Password]
 (
-    [Id]           integer not null primary key autoincrement,
+    [Id]           integer primary key autoincrement,
     [UserId]       integer not null,
     [PasswordHash] text    not null,
     [CreatedAt]    date    not null,
@@ -39,4 +39,4 @@ create table [Password]
     foreign key (UserId) references User (Id)
 );
 
-insert into Gender values ('male'), (1, 'female'), (2, 'other');
+insert into Gender(Label) values ('male'), ('female'), ('other');
