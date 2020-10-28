@@ -12,8 +12,8 @@ drop table if exists User;
 CREATE TABLE [User]
 (
     [Id]         INTEGER PRIMARY KEY AUTOINCREMENT,
-    [NemID]      TEXT    NOT NULL,
-    [CPR]        TEXT    NOT NULL,
+    [NemId]      TEXT    NOT NULL,
+    [Cpr]        TEXT    NOT NULL,
     [CreatedAt]  DATE    not null,
     [ModifiedAt] date    not null,
     [GenderId]   integer not null,
