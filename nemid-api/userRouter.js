@@ -14,7 +14,6 @@ router.post('/', (req, res) => {
 
     const query = `insert into main.User(NemId, Cpr, CreatedAt, ModifiedAt, GenderId, Email)
                    values (?, ?, ?, ?, ?, ?)`;
-    console.log(query);
     db.run(query, [nemId, cpr, new Date(), new Date(), genderId, email], (err) => {
         if (err) {
             console.log(err);

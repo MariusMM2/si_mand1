@@ -1,12 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const genderRouter = require('./genderRouter');
+const indexRouter = require('./indexRouter');
 const userRouter = require('./userRouter');
-const app = express();
+const genderRouter = require('./genderRouter');
+
 const port = 8099;
+const app = express();
 
 app.use(bodyParser.json());
 
+app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/gender', genderRouter);
 
