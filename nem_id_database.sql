@@ -35,7 +35,7 @@ create table [Password]
     [UserId]       integer not null,
     [PasswordHash] text    not null,
     [CreatedAt]    date    default CURRENT_TIMESTAMP,
-    [IsValid]      integer not null,
+    [IsValid]      integer not null default true,
     foreign key (UserId) references User (Id)
 );
 
