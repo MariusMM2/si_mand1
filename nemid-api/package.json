@@ -1,20 +1,21 @@
 {
-  "name": "nemidcodegen",
+  "name": "nemid-api",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./server.js localhost 8099"
+    "start": "node ./main.js",
+    "dev": "nodemon ./main.js localhost 8099"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "sqlite3": "^5.0.0",
-    "bcrypt": "^5.0.0"
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

@@ -642,4 +642,4 @@ dmypy.json
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,node,python,java,go
 
-nem_id_database.sqlite
+nemid-api/nem_id_database.sqlite

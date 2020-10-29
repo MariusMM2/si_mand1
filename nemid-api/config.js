@@ -1,1 +1,1 @@
-module.exports.dbLocation = '../nem_id_database.sqlite';
+module.exports.dbLocation = './nem_id_database.sqlite';

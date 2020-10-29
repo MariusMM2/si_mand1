@@ -1,0 +1,12 @@
+version: '3'
+services:
+  nemid-api:
+    container_name: nemid-api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - './:/usr/src/api'
+      - './package.json:/usr/src/api/package.json'
+    ports:
+      - "8099:8099"
