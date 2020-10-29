@@ -5,6 +5,11 @@ const router = require('express').Router();
 
 const db = new sqlite3.Database(dbLocation);
 
+/**
+ * A User
+ * @typedef {{Id: number, NemId: string, Cpr: string, CreatedAt: Date, ModifiedAt: Date, GenderId: number, Email: string}} User
+ */
+
 router.get('/authenticate', async (req, res) => {
     const {nemId, password} = req.body;
 
@@ -91,7 +96,6 @@ router.post('/change-password', async (req, res) => {
         return res.sendStatus(400);
     }
 
-    // console.log(dbRows);
     if (dbRows.length === 0) {
         console.log(`no rows found for nemid ${nemId}`);
         return res.sendStatus(404);
@@ -141,8 +145,71 @@ router.post('/change-password', async (req, res) => {
     return res.sendStatus(200);
 });
 
-router.get('/reset-password', (req, res) => {
-    res.sendStatus(501);
+router.get('/reset-password', async (req, res) => {
+    const {cpr, password} = req.body;
+
+    if (cpr === undefined ||
+        password === undefined) {
+        return res.sendStatus(400);
+    }
+
+    const queryUser = 'select * from User where User.Cpr = ?';
+    let dbUser;
+    try {
+        dbUser = await new Promise((resolve, reject) => {
+            db.get(queryUser, [cpr], (err, dbRow) => {
+                if (err) {
+                    reject(new Error(err));
+                } else {
+                    resolve(dbRow);
+                }
+            });
+        });
+    } catch (e) {
+        console.log(e);
+        return res.sendStatus(400);
+    }
+
+    if (dbUser === undefined) {
+        console.log(`no user found for cpr ${cpr}`);
+        return res.sendStatus(404);
+    }
+
+    const queryPasswords = 'update Password set IsValid=false where UserId = ?';
+    try {
+        await new Promise((resolve, reject) => {
+            db.run(queryPasswords, [dbUser.Id], (err) => {
+                if (err) {
+                    reject(new Error(err));
+                } else {
+                    resolve(true);
+                }
+            });
+        });
+        console.log('invalidated old passwords for ' + dbUser.Cpr);
+    } catch (e) {
+        console.log(e);
+        return res.sendStatus(400);
+    }
+
+    const queryNewPass = 'insert into Password(UserId, PasswordHash) values (?, ?)';
+
+    try {
+        await new Promise((resolve, reject) => {
+            db.run(queryNewPass, [(dbUser.Id), (getHashedPassword(password))], (err) => {
+                if (err) {
+                    reject(new Error(err));
+                } else {
+                    resolve(true);
+                }
+            })
+        });
+    } catch (e) {
+        console.log(e);
+        return res.sendStatus(400);
+    }
+
+    return res.sendStatus(200);
 });
 
 module.exports = router;
