@@ -1,4 +1,6 @@
 *.iml
 .gitignore
 .node_modules\
+Dockerfile
+nem_id_database.sql
 README.md

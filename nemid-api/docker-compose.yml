@@ -5,8 +5,5 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    volumes:
-      - './:/usr/src/api'
-      - './package.json:/usr/src/api/package.json'
     ports:
       - "8099:8099"
